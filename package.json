@@ -1,0 +1,94 @@
+{
+  "name": "jsddt",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start:electron": "electron main.js",
+    "start": "craco start",
+    "build": "craco build",
+    "dist": "electron-builder",
+    "test": "craco  test"
+  },
+  "build": {
+    "asar": true,
+    "directories": {
+      "output": "out",
+      "buildResources": "assets"
+    },
+    "extraResources": [
+      {
+        "from": "assets",
+        "to": "./"
+      }
+    ],
+    "extraMetadata": {
+      "main": "main.js"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "public/favicon.ico",
+      "publish": [
+        {
+          "provider": "github",
+          "repo": "AR_Garage",
+          "owner": "remyar",
+          "releaseType": "release"
+        }
+      ],
+      "artifactName": "AR_Garage-Setup-${version}.${ext}",
+      "files": [
+        "!out/*",
+        "!webpack*",
+        "!src/*",
+        "!*.log",
+        "!node_modules/*",
+        "!dev-app-update.yml",
+        "!.vscode/*",
+        "!.github/*",
+        "!*.md",
+        "!public/*"
+      ]
+    }
+  },
+  "dependencies": {
+    "@craco/craco": "^7.1.0",
+    "@electron/remote": "^2.1.2",
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
+    "@mui/icons-material": "^5.16.7",
+    "@mui/lab": "^5.0.0-alpha.173",
+    "@mui/material": "^5.16.7",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-input-mask": "^2.0.4",
+    "react-intl": "^6.6.8",
+    "react-router-dom": "^6.26.1",
+    "dotenv": "^16.4.5",
+    "serialport": "^12.0.0"
+  },
+  "devDependencies": {
+    "electron": "^30.0.6",
+    "electron-builder": "^24.13.3"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "author": "",
+  "license": "ISC"
+}
