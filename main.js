@@ -1,6 +1,6 @@
 const electron = require('electron');
 var pjson = require('./package.json');
-//const backend = require('./src_backend');
+const backend = require('./src_backend');
 
 require('@electron/remote/main').initialize();
 
@@ -52,7 +52,7 @@ async function createWindow() {
 
     require("@electron/remote/main").enable(mainWindow.webContents);
 
-   // await backend.start(mainWindow);
+    await backend.start(mainWindow);
 }
 
 // This method will be called when Electron has finished

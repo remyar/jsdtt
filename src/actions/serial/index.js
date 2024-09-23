@@ -1,10 +1,11 @@
 import createAction from '../../middleware/actions';
 
 export default {
-    find: createAction(async ({ extra, getState }) => {
+    list: createAction(async ({ extra, getState }) => {
         try {
-            let serialport = await extra.api.SerialPort.list();
-            return {};
+            let result = await extra.electron.ipcRenderer.invoke("Device.connect");
+            //let serialport = await extra.api.SerialPort.list();
+            return { serialport: serialport };
         } catch (err) {
             throw { message: err.message };
         }

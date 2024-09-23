@@ -13,7 +13,7 @@ import actions from '../../actions';
 function HomePage(props) {
 
     useEffect(()=>{
-        props.dispatch(actions.serial.find());
+        props.dispatch(actions.serial.list());
     }, []);
     
     return <Box>

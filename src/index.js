@@ -10,6 +10,7 @@ import SnackBarGenerator from './providers/snackBar';
 import localeData from './locales';
 import App from './app';
 import api from './api';
+import electron from 'electron';
 
 async function startApp() {
 
@@ -52,7 +53,7 @@ async function startApp() {
                     }}
                 />
                 <CssBaseline />
-                <StoreProvider extra={{ api }} globalState={{
+                <StoreProvider extra={{ api , electron}} globalState={{
                     settings: {  locale: "fr", ...settings },
                 }}>
                     <MemoryRouter>
