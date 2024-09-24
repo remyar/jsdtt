@@ -1,7 +1,7 @@
 const { app, ipcMain } = require('electron');
-const SerialPort = require('./SerialPort');
-const Device = require('./Device');
-
+const {SerialPort} = require('serialport');
+const Device = require('./Devices');
+const Ecu = require('./Ecus');
 let isDev = !app.isPackaged;
 
 module.exports = {
@@ -14,14 +14,20 @@ module.exports = {
                     _mainWindow.webContents.closeDevTools();
                 }
             });
-            Object.keys(SerialPort).forEach((key) => {
-                ipcMain.handle('SerialPort.' + key, async (event, value) => {
-                    return (await SerialPort[key](value));
-                });
+
+            ipcMain.handle('SerialPort.list', async (event, value) => {
+                return await SerialPort.list();
             });
+
             Object.keys(Device).forEach((key) => {
                 ipcMain.handle('Device.' + key, async (event, value) => {
                     return (await Device[key](value));
+                });
+            });
+
+            Object.keys(Ecu).forEach((key) => {
+                ipcMain.handle('Ecu.' + key, async (event, value) => {
+                    return (await Ecu[key](value));
                 });
             });
         } catch (err) {

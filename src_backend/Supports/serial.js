@@ -1,13 +1,10 @@
 const { SerialPort } = require('serialport');
-const MessageBuffer = require('./MessageBuffer');
 
-let _msgBuffer = new MessageBuffer(">");
 
 class Serial {
     constructor(params) {
 
-        this.buffer = [];
-        // this.onDatasCallback = () => { };
+        this.onDatasCallback = () => { };
 
         this.port = new SerialPort({ path: params.path, autoOpen: params.autoOpen || false, baudRate: params.baudrate });
 
@@ -17,9 +14,7 @@ class Serial {
         });
 
         this.port.on('data', (data) => {
-            _msgBuffer.push(data)
-         //   this.buffer = [...this.buffer, ...data];
-            // this.onDatasCallback && this.onDatasCallback(data, this.port.path);
+            this.onDatasCallback && this.onDatasCallback(data, this.port.path);
         });
     }
 
@@ -51,6 +46,34 @@ class Serial {
         });
     }
 
+    onData(_callback) {
+        this.onDatasCallback = _callback;
+    }
+
+    async write(_data) {
+        return new Promise((resolve, reject) => {
+            if (this.port) {
+                 console.log(this.port.path + " => write : " + _data);
+                if (this.port.isOpen) {
+                    this.port.write(_data);
+                    resolve();
+                   /* this.port.drain((err) => {
+                        if (err) {
+                            reject(err);
+                        } else {
+                            resolve();
+                        }
+                    });*/
+                } else {
+                    reject();
+                }
+
+            } else {
+                reject();
+            }
+        })
+    }
+/*
     async expect(str , timeout = 1000) {
         return new Promise((resolve , reject)=>{
             let _timeout = undefined;
@@ -101,7 +124,7 @@ class Serial {
                 reject(err);
             }
         });
-    }
+    }*/
 }
 
 

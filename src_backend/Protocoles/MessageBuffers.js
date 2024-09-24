@@ -12,22 +12,22 @@ module.exports = class MessageBuffer {
         if ((this.buffer.length === 0)) {
             return true
         }
-        if ( this.buffer.length < this.delimiter.length ){
+        if (this.buffer.length < this.delimiter.length) {
             return true;
         }
 
         let isOk = true;
         let delimiteridx = 0;
         this.delimiterIndex = 0;
-        this.buffer.forEach((e,idx) => {
-            if ( this.delimiterIndex == 0 ){
-                if ( e != this.delimiter[delimiteridx]){
+        this.buffer.forEach((e, idx) => {
+            if (this.delimiterIndex == 0) {
+                if (e != this.delimiter[delimiteridx]) {
                     delimiteridx = 0;
-                } else if ( e == this.delimiter[delimiteridx] ){
-                    
+                } else if (e == this.delimiter[delimiteridx]) {
+
                     delimiteridx++;
-                    if ( delimiteridx >= this.delimiter.length){
-                        if ( idx != 0 ){
+                    if (delimiteridx >= this.delimiter.length) {
+                        if (idx != 0) {
                             this.delimiterIndex = idx;
                             isOk = false;
                         }
@@ -39,16 +39,16 @@ module.exports = class MessageBuffer {
     }
 
     push(data) {
-        this.buffer = [...this.buffer , ...data];
+        this.buffer = [...this.buffer, ...data];
     }
 
     getMessage() {
         const delimiterIndex = this.delimiterIndex
         if (delimiterIndex !== -1) {
-            const message = this.buffer.slice(0, delimiterIndex+1);
+            const message = this.buffer.slice(0, delimiterIndex + 1);
 
-            this.buffer.splice(0,delimiterIndex+1);
-            
+            this.buffer.splice(0, delimiterIndex + 1);
+
             return message
         }
         return null

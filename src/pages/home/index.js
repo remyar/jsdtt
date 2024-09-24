@@ -11,11 +11,26 @@ import actions from '../../actions';
 
 
 function HomePage(props) {
+    const intl = props.intl;
 
-    useEffect(()=>{
-        props.dispatch(actions.serial.list());
+    async function _findDevice() {
+        try {
+            await props.dispatch(actions.ecu.init());
+            let result = (await props.dispatch(actions.device.find())).DeviceFind;
+            if ( result == true){
+                props.snackbar.success(intl.formatMessage({ id: "device.find.success" }));
+            } else {
+                props.snackbar.error(intl.formatMessage({ id: "device.find.error" }));
+            }
+        } catch (err) {
+            props.snackbar.error(intl.formatMessage({ id: "device.find.error" }));
+        }
+    }
+    useEffect(() => {
+        _findDevice();
+
     }, []);
-    
+
     return <Box>
 
         <Box sx={{
@@ -27,7 +42,7 @@ function HomePage(props) {
             textAlign: 'center'
         }}>
 
-           dsfsdfdsfdsf
+            dsfsdfdsfdsf
         </Box>
     </Box >
 

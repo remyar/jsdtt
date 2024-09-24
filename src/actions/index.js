@@ -1,8 +1,7 @@
-import serial from './serial';
-import elm from './elm';
-
+import device from './device';
+import ecu from './ecu';
 
 export default {
-    elm,
-    serial
+    device,
+    ecu
 }
